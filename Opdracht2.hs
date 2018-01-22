@@ -2,10 +2,12 @@ module Opdracht2
     where
     import Data.Char (ord, chr)
     
+    -- euclid
     euclid::Int->Int->Int
     euclid x 0 = x
     euclid x y = euclid y (x`mod`y)
     
+    -- egcd
     egcd :: Int -> Int -> (Int,Int,Int)
     egcd 0 b = (b, 0, 1)
     egcd a b =
@@ -19,8 +21,10 @@ module Opdracht2
         |otherwise = egcd a b
         where x = middelste(egcd a b)
     
+    -- middelste
     middelste (_,b,_) = b
     
+    -- prime
     prime :: Int -> Bool
     prime n = (n > 1) && all (\ x -> rem n x /= 0) [2..n-1]
     
@@ -42,15 +46,20 @@ module Opdracht2
     
     eerste (a,_) = a
     tweede (_,b) = b
+    
+    -- rsa encrypt
     rsaencrypt::(Int, Int)->Int->Int
     rsaencrypt (e, m) x = (x+eerste(e,m)^5)+tweede(e,m)
     
+    --rsa decrypt
     rsadecrypt::(Int, Int)->Int->Int
     rsadecrypt (e, m) x = (x-tweede(e,m)-eerste(e,m)^5)
 
+    --text decrypt
     textencrypt::(Int, Int)->Char->Int
     textencrypt (e, m) a = ord a+e+m
     
+    --text encrypt
     textdecrypt::(Int, Int)->Int->Char
     textdecrypt (e, m) a = chr (a-e-m)
     
