@@ -1,20 +1,40 @@
 module Opdracht3
-    where
-    import Data.List
-    
-    -- Deze functie differentieert de functie f numeriek in punt x met een precisie p
-    -- y = a x + b
-    
-    -- Deze functie werk nog niet :(
-    
-    differentieer::(Double->Double)->Double->Double->Double
-    differentieer f p x = x
-    
-    integreer::(Double->Double)->Double->Double->Double->Double
-    integreer f a b p = p
-    
-    -- Deze functie heeft een lijst als invoer en levert als uitvoer een lijst met uitsluitend
-    -- die elementen die meer dan ´e´en keer voorkomen in de lijst
-    dubbelen::(Ord a)=>[a]->[a]
-    dubbelen = map head . group . sort
+	where
+	import Data.List
 
+	s = [1..6]
+	stenen = [[a,b,c,d,e]|a<-s,b<-s,c<-s,d<-s,e<-s]
+		
+	count::Integer->[Integer]->Integer
+	count c [] = 0
+	count c (x:xs)
+		|c==x= 1 + (count c xs)
+		|otherwise = count c xs
+
+	convert list = ([a,b,c,d,e,f],list) where
+		a = count 1 list
+		b = count 2 list
+		c = count 3 list
+		d = count 4 list
+		e = count 5 list
+		f = count 6 list
+		
+	n= length(stenen)
+	amountOfStraigths=0
+
+	
+	--straight 0 = return()
+	--straight n =
+	--	do
+	--		if((map fst (map convert stenen)!!n!!0) == 1 && (map fst (map convert stenen)!!n!!1) == 1 && (map fst (map convert stenen)!!n!!2) == 1 && (map fst (map convert stenen)!!n!!3) == 1 && (map fst (map convert stenen)!!n!!4) == 1) 
+	--		then do amountOfStraigths++
+	--		straight (n-1)
+	
+	countStraights n
+		| n >= 0 = straight n + countStraights (n-1)
+		| otherwise = 0
+		
+	straight n
+		| map fst (map convert stenen)!!n!!0 == 1 && map fst (map convert stenen)!!n!!1 == 1 && map fst (map convert stenen)!!n!!2 == 1 && map fst (map convert stenen)!!n!!3 == 1 && map fst (map convert stenen)!!n!!4 == 1 = 1
+		| map fst (map convert stenen)!!n!!1 == 1 && map fst (map convert stenen)!!n!!2 == 1 && map fst (map convert stenen)!!n!!3 == 1 && map fst (map convert stenen)!!n!!4 == 1 && map fst (map convert stenen)!!n!!5 == 1 = 1
+		| otherwise = 0
